@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MainActivity!</string>
+    <string name="start">Start</string>
     <string name="app_name">MyApp</string>
-
+	<string name="playing">Playing</string>
+	<string name="out">is out</string>
+	<string-array name="time_units">
+		<item>Hrs</item>
+		<item>Mins</item>
+	</string-array>
 </resources>
