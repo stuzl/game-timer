@@ -24,6 +24,7 @@ public class MainActivity extends Activity
 	public static final String EXTRA_TIME = "com.giraffeandson.myapp.TIME";
 	private static final String JPEG_FILE_PREFIX = "PlayerPhoto";
 	private static final String JPEG_FILE_SUFFIX = ".jpg";
+	private static final int MINUTE_PICKER_INCREMENT = 5;
 	private String mCurrentPhotoPath;
 	private final ArrayList<String> list = new ArrayList<String>();
     /** Called when the activity is first created. */
@@ -44,8 +45,15 @@ public class MainActivity extends Activity
 		final NumberPicker minutePicker = (NumberPicker) findViewById(R.id.minutePicker);
 		hourPicker.setMinValue(0);
 		hourPicker.setMaxValue(9);
+	//	minutePicker.setMinValue(0);
+	//	minutePicker.setMaxValue(59);
+		String[] minuteChoices = new String[60/MINUTE_PICKER_INCREMENT];
+		for(int i=0; i<minuteChoices.length;i++){
+			minuteChoices[i] = Integer.toString(i*MINUTE_PICKER_INCREMENT);
+		}
+		minutePicker.setDisplayedValues(minuteChoices);
 		minutePicker.setMinValue(0);
-		minutePicker.setMaxValue(59);
+		minutePicker.setMaxValue(minuteChoices.length-1);
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 		listView.setAdapter(adapter);
 
@@ -63,7 +71,7 @@ public class MainActivity extends Activity
 					{
 						Intent intent = new Intent(MainActivity.this, PlayingActivity.class);
 						intent.putExtra(EXTRA_PLAYERS, list);
-						intent.putExtra(EXTRA_TIME, (long) 60 * (60 * hourPicker.getValue() + minutePicker.getValue()));
+						intent.putExtra(EXTRA_TIME, (long) 60 * (60 * hourPicker.getValue() + minutePicker.getValue()*MINUTE_PICKER_INCREMENT));
 						startActivity(intent);
 					}
 				}
