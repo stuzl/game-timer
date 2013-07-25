@@ -43,7 +43,7 @@ public class PlayingActivity extends Activity
 			times = new HashMap<String,Long>();
 			for (String name:names)
 			{
-				times.put(name, (long) Math.round(totalTime / names.size()));
+				times.put(name, (long) Math.round(totalTime *1000/ names.size()));
 			}
 		}
 		nameView = (TextView) findViewById(R.id.nameText);
@@ -77,17 +77,8 @@ public class PlayingActivity extends Activity
 					counter.cancel();
 					times.put(nameView.getText().toString(), counter.getRemainingTime());
 					nameView.setText(name);
-					PopUp.show(PlayingActivity.this,times.get(name).toString());
-					if (times.get(name).equals(0l))
-					{
-						
-						timerText.setText(getString(R.string.out));
-					}
-					else
-					{
-						counter = new MyCounter(times.get(name));
-						counter.start();
-					}
+					counter = new MyCounter(times.get(name));
+					counter.start();
 				}
 			});
 	}
@@ -106,10 +97,10 @@ public class PlayingActivity extends Activity
 	{
 		private long remainingTime;
 
-		public MyCounter(long timeInSeconds)
+		public MyCounter(long timeInMilliSeconds)
 		{
-			super(1000 * timeInSeconds, 1000);
-			remainingTime = timeInSeconds;
+			super(timeInMilliSeconds, 1);
+			remainingTime = timeInMilliSeconds;
 		}
 		public void onTick(long millisUntilFinish)
 		{
@@ -120,7 +111,7 @@ public class PlayingActivity extends Activity
 			timerText.setText(hours + ":" 
 							  + (minutes < 10 ?"0" + minutes: minutes) + ":"
 							  + (seconds < 10 ?"0" + seconds: seconds));
-			remainingTime = millisUntilFinish / 1000;
+			remainingTime = millisUntilFinish;
 		}
 
 		public long getRemainingTime()
@@ -131,6 +122,7 @@ public class PlayingActivity extends Activity
 
 		public void onFinish()
 		{
+			remainingTime = 0l;
 			timerText.setText(getString(R.string.out));
 		}
 
